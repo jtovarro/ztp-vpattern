@@ -10,7 +10,6 @@ metadata:
     #installer.open-cluster-management.io/oadp-subscription-spec: '{"channel": "stable-1.4","installPlanApproval": "Manual","name": "redhat-oadp-operator","source": "cs-redhat-operator-index-v4-18","startingCSV": "oadp-operator.v1.4.6","sourceNamespace": "openshift-marketplace"}'
 spec:
   availabilityConfig: High
-  enableClusterBackup: false
   ingress:
     sslCiphers:
     - ECDHE-ECDSA-AES256-GCM-SHA384
@@ -58,4 +57,10 @@ spec:
       - configOverrides: {}
         enabled: true
         name: siteconfig
+      - configOverrides: {}	
+        enabled: false	
+        name: fine-grained-rbac-preview	
+      - configOverrides: {}	
+        enabled: false	
+        name: cnv-mtv-integrations-preview
   separateCertificateManagement: false
