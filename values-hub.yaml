@@ -35,10 +35,10 @@ clusterGroup:
       operatorGroup: true
       labels:
         openshift.io/cluster-monitoring: "true"
-  - openshift-local-storage:
-      labels:
-        openshift.io/cluster-monitoring: "true"
-      operatorGroup: true
+  # - openshift-local-storage:
+  #     labels:
+  #       openshift.io/cluster-monitoring: "true"
+  #     operatorGroup: true
   - openshift-storage:
       labels:
         openshift.io/cluster-monitoring: "true"
@@ -58,15 +58,15 @@ clusterGroup:
       name: advanced-cluster-management
       namespace: open-cluster-management
       source: openshift-redhat-operators
-      channel: release-2.16
-      csv: advanced-cluster-management.v2.16.0
+      channel: release-2.15
+      csv: advanced-cluster-management.v2.15.1
 
     multicluster-engine:
       name: multicluster-engine
       namespace: multicluster-engine
       source: openshift-redhat-operators
-      channel: stable-2.11
-      csv: multicluster-engine.v2.11.0
+      channel: stable-2.10
+      csv: multicluster-engine.v2.10.1
 
   projects:
   - hub
@@ -104,10 +104,10 @@ mgmt:
     # enableUnsealVault: false
 
   gitops:
-    ztp_plugin_image: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18.1-1
+    ztp_plugin_image: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
     ztp_instance_ns: ztp
     openshift_gitops_api_version: argoproj.io/v1alpha1
-    multicluster_operators_subscription: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13.4
+    multicluster_operators_subscription: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.15
     repoURL: https://github.com/jtovarro/core-ztp.git
     targetRevision: main
 
