@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+  name: ztp-clusters
+  namespace: ztp
+spec:
+  destination:
+    namespace: ztp
+    server: https://kubernetes.default.svc
+  # project here should match the one created during argo install
+  project: cluster-app-project
+  source:
+    path: clusters/
+    repoURL: {{ .Values.mgmt.gitops.repoURL }}
+    targetRevision: {{ .Values.mgmt.gitops.targetRevision }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      # default limit is 5. But for unlimited retries, it has to be less than 0
+      limit: -1
+      backoff:
+        duration: 1m
+        factor: 2
+    syncOptions:
+    - CreateNamespace=true
+    - RespectIgnoreDifferences=true
+  ignoreDifferences:
+  - group: "extensions.hive.openshift.io"
+    kind: "AgentClusterInstall"
+    jsonPointers:
+    - /spec/provisionRequirements
+

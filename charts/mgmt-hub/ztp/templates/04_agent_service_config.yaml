@@ -1,0 +1,33 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  name: agent
+  namespace: multicluster-engine
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  OSImageCACertRef:
+    name: http-server-ca
+  databaseStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 15Gi
+    storageClassName: "{{ .Values.mgmt.portworx.default_storageclass }}"
+  filesystemStorage:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 50Gi
+    storageClassName: "{{ .Values.mgmt.portworx.default_storageclass }}"
+  mirrorRegistryRef:
+    name: mirror-registry-config-map
+  osImages:
+    - openshiftVersion: "4.18"
+      url: https://{{ .Values.mgmt.capsule.nexus_registry }}/repository/infra/iso/rhcos-4.18.23-x86_64-live.x86_64.iso # iso for ocp 4.18.28, already available at iso folder https://rhcos.mirror.openshift.com/art/storage/prod/streams/4.18-9.4/builds/418.94.202510081222-0/x86_64/rhcos-418.94.202510081222-0-live.x86_64.iso
+      rootFSUrl: https://{{ .Values.mgmt.capsule.nexus_registry }}/repository/infra/iso/rhcos-4.18.23-x86_64-live-rootfs.x86_64.img # img file for ocp 4.18.28, should be available on the httpd server https://rhcos.mirror.openshift.com/art/storage/prod/streams/4.18-9.4/builds/418.94.202510081222-0/x86_64/rhcos-418.94.202510081222-0-live-rootfs.x86_64.im
+      # pick version from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.18.24/release.txt
+      version: 418.94.202509100653-0
+      cpuArchitecture: "x86_64"

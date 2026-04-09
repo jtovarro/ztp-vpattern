@@ -1,0 +1,149 @@
+apiVersion: "{{ .Values.mgmt.gitops.openshift_gitops_api_version }}"
+kind: ArgoCD
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+  namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+spec:
+  applicationSet:
+    resources:
+      limits:
+        cpu: "2"
+        memory: 1Gi
+      requests:
+        cpu: 250m
+        memory: 512Mi
+  controller:
+    processors: {}
+    resources:
+      limits:
+        cpu: "16"
+        memory: 32Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    sharding:
+      enabled: true
+      replicas: 3
+  grafana:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  ha:
+    enabled: false
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+  initialSSHKnownHosts: {}
+  monitoring:
+    enabled: false
+  notifications:
+    enabled: false
+  kustomizeBuildOptions: --enable-alpha-plugins
+  prometheus:
+    enabled: false
+    ingress:
+      enabled: false
+    route:
+      enabled: false
+  rbac:
+    defaultPolicy: 'role:admin'
+  redis:
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+  repo:
+    env:
+    - name: ARGOCD_EXEC_TIMEOUT
+      value: 360s
+    - name: KUSTOMIZE_PLUGIN_HOME
+      value: /.config/kustomize/plugin
+    initContainers:
+    - args:
+      - /.config
+      command:
+      - /exportkustomize.sh
+      image: "{{ .Values.mgmt.gitops.ztp_plugin_image }}"
+      imagePullPolicy: Always
+      name: kustomize-plugin
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /.config
+        name: kustomize
+    - args:
+        - -c
+        - mkdir -p /.config/kustomize/plugin/ && cp -r /etc/kustomize/plugin/policy.open-cluster-management.io /.config/kustomize/plugin/
+      command:
+        - /bin/bash
+      image: "{{ .Values.mgmt.gitops.multicluster_operators_subscription }}"
+      name: policy-generator-install
+      imagePullPolicy: Always
+      volumeMounts:
+        - mountPath: /.config
+          name: kustomize          
+    resources:
+      limits:
+        cpu: "8"
+        memory: 16Gi
+      requests:
+        cpu: "1"
+        memory: 2Gi
+    volumeMounts:
+    - mountPath: /.config
+      name: kustomize
+    volumes:
+    - name: kustomize
+  resourceExclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - TaskRun
+      - PipelineRun
+  server:
+    autoscale:
+      enabled: false
+    grpc:
+      ingress:
+        enabled: false
+    ingress:
+      enabled: false
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 125m
+        memory: 128Mi
+    route:
+      enabled: true
+    service:
+      type: ""
+  sso:
+    dex:
+      openShiftOAuth: true
+      resources:
+        limits:
+          cpu: 500m
+          memory: 256Mi
+        requests:
+          cpu: 250m
+          memory: 128Mi
+    provider: dex
+  tls:
+    ca: {}
+

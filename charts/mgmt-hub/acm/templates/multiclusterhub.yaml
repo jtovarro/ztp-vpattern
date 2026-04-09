@@ -1,0 +1,64 @@
+---
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+  name: multiclusterhub
+  namespace: open-cluster-management
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+    #installer.open-cluster-management.io/mce-subscription-spec: '{"channel": "stable-2.8","installPlanApproval": "Manual","name": "multicluster-engine","source": "cs-redhat-operator-index-v4-18","startingCSV": "multicluster-engine.v2.8.3","sourceNamespace": "openshift-marketplace"}'
+    #installer.open-cluster-management.io/oadp-subscription-spec: '{"channel": "stable-1.4","installPlanApproval": "Manual","name": "redhat-oadp-operator","source": "cs-redhat-operator-index-v4-18","startingCSV": "oadp-operator.v1.4.6","sourceNamespace": "openshift-marketplace"}'
+spec:
+  availabilityConfig: High
+  enableClusterBackup: false
+  ingress:
+    sslCiphers:
+    - ECDHE-ECDSA-AES256-GCM-SHA384
+    - ECDHE-RSA-AES256-GCM-SHA384
+    - ECDHE-ECDSA-AES128-GCM-SHA256
+    - ECDHE-RSA-AES128-GCM-SHA256
+  overrides:
+    components:
+      - configOverrides: {}
+        enabled: true
+        name: cluster-backup
+      - configOverrides: {}
+        enabled: true
+        name: console
+      - configOverrides: {}
+        enabled: true
+        name: insights
+      - configOverrides: {}
+        enabled: true
+        name: grc
+      - configOverrides: {}
+        enabled: true
+        name: cluster-lifecycle
+      - configOverrides: {}
+        enabled: true
+        name: volsync
+      - configOverrides: {}
+        enabled: true
+        name: multicluster-engine
+      - configOverrides: {}
+        enabled: true
+        name: search
+      - configOverrides: {}
+        enabled: true
+        name: app-lifecycle
+      - configOverrides: {}
+        enabled: true
+        name: cluster-permission
+      - configOverrides: {}
+        enabled: true
+        name: multicluster-observability
+      - configOverrides: {}
+        enabled: true
+        name: submariner-addon
+      - configOverrides: {}
+        enabled: true
+        name: siteconfig
+      - configOverrides: {}
+        enabled: false
+        name: edge-manager-preview
+  separateCertificateManagement: false

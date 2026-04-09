@@ -1,0 +1,152 @@
+# File name depends clusterGroupName in values-global.yaml
+
+clusterGroup:
+  name: hub
+  isHubCluster: true
+
+  imperative:
+    # Use cluster-admin privilege level for imperative to approve install plans
+    # verbosity: "-vvv"
+    clusterRoleYaml:
+    - apiGroups:
+      - '*'
+      resources:
+      - '*'
+      verbs:
+      - '*'
+    - nonResourceURLs:
+      - '*'
+      verbs:
+      - '*'
+
+  # Set masters schedulables
+  mastersSchedulable: true
+
+  namespaces:
+  - ztp
+  - talm-operator:
+      labels:
+        openshift.io/cluster-monitoring: "true"
+      operatorGroup: true
+      targetNamespaces: null
+  - open-cluster-management:
+      operatorGroup: true
+  - multicluster-engine:
+      operatorGroup: true
+      labels:
+        openshift.io/cluster-monitoring: "true"
+  - openshift-local-storage:
+      labels:
+        openshift.io/cluster-monitoring: "true"
+      operatorGroup: true
+  - openshift-storage:
+      labels:
+        openshift.io/cluster-monitoring: "true"
+      operatorGroup: true
+  - vault-secrets-operator:
+      labels:
+        openshift.io/cluster-monitoring: "true"
+      operatorGroup: true
+      targetNamespaces: null
+  - open-cluster-management-backup
+
+  operatorgroupExcludes:
+  - open-cluster-management-backup
+
+  subscriptions:
+    advanced-cluster-management:
+      name: advanced-cluster-management
+      namespace: open-cluster-management
+      source: openshift-redhat-operators
+      channel: release-2.16
+      csv: advanced-cluster-management.v2.16.0
+
+    multicluster-engine:
+      name: multicluster-engine
+      namespace: multicluster-engine
+      source: openshift-redhat-operators
+      channel: stable-2.11
+      csv: multicluster-engine.v2.11.0
+
+  projects:
+  - hub
+
+  applications:
+    acm:
+      name: acm
+      namespace: open-cluster-management
+      project: hub
+      path: charts/mgmt-hub/acm
+      ignoreDifferences:
+      - group: internal.open-cluster-management.io
+        kind: ManagedClusterInfo
+        jsonPointers:
+        - /spec/loggingCA
+ 
+    # gitops:
+    #   name: gitops
+    #   path: charts/mgmt-hub/gitops
+    #   project: hub
+
+    # ztp:
+    #   name: ztp
+    #   namespace: multicluster-engine
+    #   path: charts/mgmt-hub/ztp
+    #   project: hub
+
+# Variables for Charts/Playbooks
+  # Go to README.md to get expected variables and examples
+
+mgmt:
+  cluster:
+    name: jct-ocp4
+    domain: gmbros.local
+    # enableUnsealVault: false
+
+  gitops:
+    ztp_plugin_image: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18.1-1
+    ztp_instance_ns: ztp
+    openshift_gitops_api_version: argoproj.io/v1alpha1
+    multicluster_operators_subscription: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13.4
+    repoURL: https://github.com/jtovarro/core-ztp.git
+    targetRevision: main
+
+  ztp:
+    jobTerminationGracePeriod: 300
+    serviceAccountName: mce-prereq-sa
+    rbac:
+      roles:
+        - name: mce-prereq
+          createRole: true
+          apiGroups:
+            - '""'
+            - 'metal3.io'
+          scope:
+            cluster: true
+          resources:
+            - namespace
+            - configmaps
+            - provisionings
+            - secrets
+          verbs:
+            - "get"
+            - "list"
+            - "patch"
+            - "update"
+            - "create"
+            - "edit"
+      roleBindings:
+        - name: mce-prereq-rolebinding
+          createBinding: true
+          scope:
+            cluster: true
+            namespace: ""
+          subjects:
+            kind: ServiceAccount
+            name: mce-prereq-sa
+            namespace: multicluster-engine
+            apiGroup: ""
+          roleRef:
+            kind: ClusterRole
+            name: mce-prereq
+

@@ -1,0 +1,201 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  # by default, the argo user is <argo-metadata.name>-argocd-application-controller
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+  namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    argocds.argoproj.io/name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    argocds.argoproj.io/namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+  labels:
+    app.kubernetes.io/managed-by: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    app.kubernetes.io/name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    app.kubernetes.io/part-of: argocd
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+- nonResourceURLs:
+  - '*'
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - operators.coreos.com
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - operator.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - user.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - config.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - console.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - persistentvolumeclaims
+  - persistentvolumes
+  - configmaps
+  verbs:
+  - '*'
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - machine.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - machineconfig.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - compliance.openshift.io
+  resources:
+  - scansettingbindings
+  verbs:
+  - '*'
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    argocds.argoproj.io/name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    argocds.argoproj.io/namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+  labels:
+    app.kubernetes.io/managed-by: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    app.kubernetes.io/name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    app.kubernetes.io/part-of: argocd
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-server"
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - get
+  - delete
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - list
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-cluster"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+  namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-policy"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: open-cluster-management:cluster-manager-admin
+subjects:
+- kind: ServiceAccount
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+  namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    argocds.argoproj.io/name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    argocds.argoproj.io/namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+  labels:
+    app.kubernetes.io/managed-by: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    app.kubernetes.io/name: argocd-application-controller
+    app.kubernetes.io/part-of: argocd
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+subjects:
+- kind: ServiceAccount
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
+  namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    argocds.argoproj.io/name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    argocds.argoproj.io/namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+  labels:
+    app.kubernetes.io/managed-by: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/part-of: argocd
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-server"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-server"
+subjects:
+- kind: ServiceAccount
+  name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-server"
+  namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
+

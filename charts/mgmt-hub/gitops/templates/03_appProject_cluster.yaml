@@ -1,0 +1,48 @@
+apiVersion: {{ .Values.mgmt.gitops.openshift_gitops_api_version }}
+kind: AppProject
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: cluster-app-project
+  namespace: {{ .Values.mgmt.gitops.ztp_instance_ns }}
+spec:
+  clusterResourceWhitelist:
+  - group: cluster.open-cluster-management.io
+    kind: ManagedCluster
+  - group: ''
+    kind: Namespace
+  destinations:
+  - namespace: '*'
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: ''
+    kind: ConfigMap
+  - group: ''
+    kind: Namespace
+  - group: ''
+    kind: Secret
+  - group: agent-install.openshift.io
+    kind: InfraEnv
+  - group: agent-install.openshift.io
+    kind: NMStateConfig
+  - group: extensions.hive.openshift.io
+    kind: AgentClusterInstall
+  - group: hive.openshift.io
+    kind: ClusterDeployment
+  - group: metal3.io
+    kind: BareMetalHost
+  - group: metal3.io
+    kind: HostFirmwareSettings
+  - group: agent.open-cluster-management.io
+    kind: KlusterletAddonConfig
+  - group: cluster.open-cluster-management.io
+    kind: ManagedCluster
+  - group: siteconfig.open-cluster-management.io
+    kind: ClusterInstance
+  - group: ran.openshift.io
+    kind: SiteConfig
+  - group: secrets.hashicorp.com
+    kind: VaultStaticSecret        #Allow VaultStaticSecret creation
+  sourceRepos:
+  - '*'
+
