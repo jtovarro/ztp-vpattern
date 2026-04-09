@@ -57,14 +57,14 @@ clusterGroup:
     advanced-cluster-management:
       name: advanced-cluster-management
       namespace: open-cluster-management
-      source: openshift-redhat-operators
+      source: redhat-operators
       channel: release-2.15
       csv: advanced-cluster-management.v2.15.1
 
     multicluster-engine:
       name: multicluster-engine
       namespace: multicluster-engine
-      source: openshift-redhat-operators
+      source: redhat-operators
       channel: stable-2.10
       csv: multicluster-engine.v2.10.1
 
