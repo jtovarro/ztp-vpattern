@@ -7,7 +7,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "1"
     installer.open-cluster-management.io/mce-subscription-spec: '{"channel": "stable-2.10","installPlanApproval": "Manual","name": "multicluster-engine","source": "redhat-operators","startingCSV": "multicluster-engine.v2.10.1","sourceNamespace": "openshift-marketplace"}'
-    #installer.open-cluster-management.io/oadp-subscription-spec: '{"channel": "stable-1.4","installPlanApproval": "Manual","name": "redhat-oadp-operator","source": "cs-redhat-operator-index-v4-18","startingCSV": "oadp-operator.v1.4.6","sourceNamespace": "openshift-marketplace"}'
+    installer.open-cluster-management.io/oadp-subscription-spec: '{"channel": "stable-1.5","installPlanApproval": "Manual","name": "redhat-oadp-operator","source": "redhat-operators","startingCSV": "oadp-operator.v1.5.5","sourceNamespace": "openshift-marketplace"}'
 spec:
   availabilityConfig: High
   ingress:
