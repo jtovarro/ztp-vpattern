@@ -58,7 +58,4 @@ spec:
       - configOverrides: {}
         enabled: true
         name: siteconfig
-      - configOverrides: {}
-        enabled: false
-        name: edge-manager-preview
   separateCertificateManagement: false
