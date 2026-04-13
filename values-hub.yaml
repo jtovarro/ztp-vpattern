@@ -35,11 +35,11 @@ clusterGroup:
       operatorGroup: true
       labels:
         openshift.io/cluster-monitoring: "true"
-  # - openshift-local-storage:
-  #     labels:
-  #       openshift.io/cluster-monitoring: "true"
-  #     operatorGroup: true
   - openshift-storage:
+      labels:
+        openshift.io/cluster-monitoring: "true"
+      operatorGroup: true
+  - openshift-lvm-storage:
       labels:
         openshift.io/cluster-monitoring: "true"
       operatorGroup: true
@@ -68,6 +68,20 @@ clusterGroup:
       channel: stable-2.10
       csv: multicluster-engine.v2.10.1
 
+    odf-operator:
+      name: odf-operator
+      namespace: openshift-storage
+      source: redhat-operators
+      channel: stable-4.20
+      csv: odf-operator.v4.20.9-rhodf
+
+    lvms-operator:
+      name: lvms-operator
+      namespace: openshift-lvm-storage
+      source: redhat-operators
+      channel: stable-4.20
+      csv: lvms-operator.v4.20.0
+
   projects:
   - hub
 
@@ -83,6 +97,11 @@ clusterGroup:
         jsonPointers:
         - /spec/loggingCA
  
+    storage:
+      name: storage
+      path: charts/mgmt-hub/storage
+      project: hub
+
     # gitops:
     #   name: gitops
     #   path: charts/mgmt-hub/gitops
