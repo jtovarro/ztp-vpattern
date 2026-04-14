@@ -107,11 +107,11 @@ clusterGroup:
     #   path: charts/mgmt-hub/gitops
     #   project: hub
 
-    # ztp:
-    #   name: ztp
-    #   namespace: multicluster-engine
-    #   path: charts/mgmt-hub/ztp
-    #   project: hub
+    ztp:
+      name: ztp
+      namespace: multicluster-engine
+      path: charts/mgmt-hub/ztp
+      project: hub
 
 # Variables for Charts/Playbooks
   # Go to README.md to get expected variables and examples
