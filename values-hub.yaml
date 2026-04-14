@@ -102,10 +102,10 @@ clusterGroup:
       path: charts/mgmt-hub/storage
       project: hub
 
-    # gitops:
-    #   name: gitops
-    #   path: charts/mgmt-hub/gitops
-    #   project: hub
+    gitops:
+      name: gitops
+      path: charts/mgmt-hub/gitops
+      project: hub
 
     ztp:
       name: ztp
