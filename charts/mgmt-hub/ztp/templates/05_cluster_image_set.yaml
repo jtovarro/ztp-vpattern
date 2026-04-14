@@ -3,4 +3,4 @@ kind: ClusterImageSet
 metadata:
   name: openshift-mirror
 spec:
-  releaseImage: "quay.apps.{{ .Values.mgmt.cluster.name }}.{{ .Values.mgmt.cluster.domain }}/ocp/openshift/release-images:4.18.28-x86_64"
+  releaseImage: "http://quay.io/openshift-release-dev/ocp-release:4.20.0-x86_64"

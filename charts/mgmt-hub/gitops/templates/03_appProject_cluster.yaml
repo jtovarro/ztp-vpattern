@@ -42,7 +42,7 @@ spec:
   - group: ran.openshift.io
     kind: SiteConfig
   - group: secrets.hashicorp.com
-    kind: VaultStaticSecret        #Allow VaultStaticSecret creation
+    kind: VaultStaticSecret #Allow VaultStaticSecret creation
   sourceRepos:
   - '*'
 

@@ -4,7 +4,6 @@ metadata:
   # by default, the argo user is <argo-metadata.name>-argocd-application-controller
   name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
   namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -100,7 +99,6 @@ rules:
   - scansettingbindings
   verbs:
   - '*'
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -128,7 +126,6 @@ rules:
   - events
   verbs:
   - list
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -142,7 +139,6 @@ subjects:
 - kind: ServiceAccount
   name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
   namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -156,7 +152,6 @@ subjects:
 - kind: ServiceAccount
   name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
   namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -177,7 +172,6 @@ subjects:
 - kind: ServiceAccount
   name: "{{ .Values.mgmt.gitops.ztp_instance_ns }}-argocd-application-controller"
   namespace: "{{ .Values.mgmt.gitops.ztp_instance_ns }}"
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
