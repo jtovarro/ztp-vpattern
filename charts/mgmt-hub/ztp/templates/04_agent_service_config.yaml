@@ -26,8 +26,8 @@ spec:
   #   name: mirror-registry-config-map
   osImages:
     - openshiftVersion: "4.20"
-      url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/4.20.0/rhcos-4.20.11-x86_64-live-iso.x86_64.iso
-      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/4.20.0/rhcos-4.20.11-x86_64-live-rootfs.x86_64.img
+      url: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.20/latest/rhcos-4.20.11-x86_64-live-iso.x86_64.iso
+      rootFSUrl: https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.20/latest/rhcos-4.20.11-x86_64-live-rootfs.x86_64.img
       # pick version from https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.20.0/release.txt
       version: 9.6.20250925-0
       cpuArchitecture: "x86_64"
