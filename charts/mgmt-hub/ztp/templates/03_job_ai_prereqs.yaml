@@ -36,11 +36,11 @@ spec:
             --type=kubernetes.io/dockerconfigjson \
             --from-file=.dockerconfigjson=/tmp/.dockerconfigjson
 
-          echo "Extract user-ca-bundle"
-          oc -n openshift-config extract configmap/user-ca-bundle --to=/tmp/
+          # echo "Extract user-ca-bundle"
+          # oc -n openshift-config extract configmap/user-ca-bundle --to=/tmp/
 
-          echo "Create mirror config map"
-          oc -n multicluster-engine create configmap mirror-registry-config-map \
-            --from-file=ca-bundle.crt=/tmp/ca-bundle.crt
+          # echo "Create mirror config map"
+          # oc -n multicluster-engine create configmap mirror-registry-config-map \
+          #   --from-file=ca-bundle.crt=/tmp/ca-bundle.crt
 
           echo "All done! Hooray!"
