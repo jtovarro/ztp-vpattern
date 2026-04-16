@@ -1,0 +1,8 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: default
+  namespace: vault-secrets-operator
+spec:
+  address: http://vault:8200

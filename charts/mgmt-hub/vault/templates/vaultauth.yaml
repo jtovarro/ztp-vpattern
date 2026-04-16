@@ -1,0 +1,15 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: vault-auth
+  namespace: vault-secrets-operator
+spec:
+  allowedNamespaces:
+    - "*"
+  kubernetes:
+    role: webapp
+    serviceAccount: default
+  method: kubernetes
+  mount: kubernetes
+  vaultConnectionRef: default

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: vault
+description: Chart to allow vault integration.
+type: application
+version: 0.1.0

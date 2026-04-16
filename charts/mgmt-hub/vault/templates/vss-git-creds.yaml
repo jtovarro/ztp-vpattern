@@ -1,0 +1,17 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: vso-git-creds-secret
+  namespace: ztp
+spec:
+  type: kv-v2 
+  mount: secret
+  path: webapp/git-creds
+  destination:
+    name: git-creds
+    create: true
+    labels:
+      argocd.argoproj.io/secret-type: repository
+  refreshAfter: 30s
+  vaultAuthRef: vault-secrets-operator/vault-auth
