@@ -1,0 +1,10 @@
+apiVersion: search.open-cluster-management.io/v1alpha1
+kind: Search
+metadata:
+  name: search-v2-operator
+  labels:
+    cluster.open-cluster-management.io/backup: ''
+spec:
+  dbStorage:
+    size: 10Gi
+    storageClassName: lvms-data-lab-vg1
