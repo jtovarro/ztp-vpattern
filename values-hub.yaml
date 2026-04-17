@@ -180,5 +180,6 @@ mgmt:
           roleRef:
             kind: ClusterRole
             name: mce-prereq
+
   storage:
     default_storageclass: lvms-data-lab-vg1
