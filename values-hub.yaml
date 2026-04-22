@@ -135,7 +135,7 @@ mgmt:
     # enableUnsealVault: false
 
   gitops:
-    ztp_plugin_image: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
+    # ztp_plugin_image: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.20
     ztp_instance_ns: ztp
     openshift_gitops_api_version: argoproj.io/v1alpha1
     multicluster_operators_subscription: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.15
