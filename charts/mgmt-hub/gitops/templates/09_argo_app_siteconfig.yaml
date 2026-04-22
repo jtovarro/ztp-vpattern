@@ -15,22 +15,17 @@ spec:
     path: clusters/
     repoURL: {{ .Values.mgmt.gitops.repoURL }}
     targetRevision: {{ .Values.mgmt.gitops.targetRevision }}
+  ignoreDifferences: # recommended way to allow ACM controller to manage its fields. alternative approach documented below (1)
+    - group: cluster.open-cluster-management.io
+      kind: ManagedCluster
+      managedFieldsManagers:
+        - controller
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    retry:
-      # default limit is 5. But for unlimited retries, it has to be less than 0
-      limit: -1
-      backoff:
-        duration: 1m
-        factor: 2
     syncOptions:
-    - CreateNamespace=true
-    - RespectIgnoreDifferences=true
-  ignoreDifferences:
-  - group: "extensions.hive.openshift.io"
-    kind: "AgentClusterInstall"
-    jsonPointers:
-    - /spec/provisionRequirements
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background
+      - RespectIgnoreDifferences=true
 

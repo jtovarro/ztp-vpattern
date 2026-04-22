@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+  name: ztp-policies
+  namespace: ztp
+spec:
+  destination:
+    namespace: ztp
+    server: https://kubernetes.default.svc
+  project: policy-app-project
+  source:
+    path: policies/
+    repoURL: {{ .Values.mgmt.gitops.repoURL }}
+    targetRevision: {{ .Values.mgmt.gitops.targetRevision }}
+    # uncomment the below plugin if you will be adding the plugin binaries in the same repo->dir where
+    # the policyGenTemplate.yaml exist AND use the ../../hack/patch-argocd-dev.sh script to re-patch the deployment-repo-server
+    #  plugin:
+    #    name: kustomize-with-local-plugins
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
