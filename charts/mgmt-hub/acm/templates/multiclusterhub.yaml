@@ -19,7 +19,7 @@ spec:
   overrides:
     components:
       - configOverrides: {}
-        enabled: true
+        enabled: false
         name: cluster-backup
       - configOverrides: {}
         enabled: true
