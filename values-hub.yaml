@@ -82,6 +82,13 @@ clusterGroup:
       channel: stable-4.20
       csv: lvms-operator.v4.20.0
 
+    topology-aware-lifecycle-manager:
+      name: topology-aware-lifecycle-manager
+      namespace: talm-operator 
+      source: redhat-operators
+      channel: stable
+      csv: topology-aware-lifecycle-manager.v4.20.2
+
     vault-secrets-operator:
       name: vault-secrets-operator
       namespace: vault-secrets-operator
