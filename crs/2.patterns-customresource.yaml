@@ -1,0 +1,14 @@
+---
+apiVersion: gitops.hybrid-cloud-patterns.io/v1alpha1
+kind: Pattern
+metadata:
+  name: mgmt-vpatterns
+  namespace: openshift-operators
+spec:
+  clusterGroupName: hub
+  gitSpec:
+    targetRepo: https://github.com/jtovarro/ztp-vpattern.git
+    targetRevision: main
+  multiSourceConfig:
+    enabled: false
+    clusterGroupChartGitRevision: main
